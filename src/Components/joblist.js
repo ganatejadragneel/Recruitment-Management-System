@@ -1,6 +1,5 @@
 import React from 'react'
 import { Table } from 'reactstrap';
-import data from '../jsonfiles/customData.json';
 import JobData from './jobData'
 
 
@@ -8,11 +7,30 @@ export class JobList extends React.Component{
 	
 		constructor(props){
 			super(props);
-			this.state={numb:0,modal:false}
+			this.state={numb:0,modal:false,response:[]}
 			this.handleClick = this.handleClick.bind(this);
 			this.toggle=this.toggle.bind(this);
 		}
-		
+		componentDidMount() {
+			this.callApi()
+			  .then(res => {
+				  console.log(res);
+				  
+				this.setState({ response: res.express});
+				  
+			  })
+			  .catch(err => console.log(err));
+		}
+
+		callApi = async () => {
+			const response = await fetch('/first1/joblist');
+			const body = await response.json();
+
+			if (response.status !== 200) throw Error(body.message);
+
+			return body;
+		};
+	  
 		handleClick(){
 			this.toggle()
 		}
@@ -41,7 +59,7 @@ export class JobList extends React.Component{
 							<th>Location</th>
 							<th>Skills</th>
 						</thead>{
-						data.map((job)=>{
+						this.state.response.map((job)=>{
 							return (
 							<tr>
 								<td>{job.id+1}</td>

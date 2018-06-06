@@ -2,6 +2,7 @@
   "name": "react-part",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "bootstrap": "^4.1.1",
     "json-loader": "^0.5.7",
@@ -19,6 +20,8 @@
   },
   "devDependencies": {
     "express": "^4.16.3",
+    "mongoclient": "^1.0.3",
+    "mongodb": "^3.0.10",
     "nodemon": "^1.17.5"
   }
 }
