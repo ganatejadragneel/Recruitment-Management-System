@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table } from 'reactstrap';
+import { Table,Badge } from 'reactstrap';
 import JobData from './jobData'
 
 
@@ -51,6 +51,10 @@ export class JobList extends React.Component{
 		
 				return (
 				<div>
+				<div>
+						<h2><Badge color="info">List Of Jobs Available</Badge></h2>
+					</div>
+				<div>
 					<Table bordered>
 						<thead>
 							<th>ID No.</th>
@@ -72,6 +76,7 @@ export class JobList extends React.Component{
 							)
 						})}
 					</Table>
+				</div>
 				</div>
 		);
 		}

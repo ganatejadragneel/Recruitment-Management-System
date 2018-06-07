@@ -1,11 +1,16 @@
 import React from 'react'
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Badge } from 'reactstrap';
 
 export class AddResumes extends React.Component{
 		render(){
 				return (
 				<div>
-					<Form>
+				<div>
+					<h2><Badge color="info">Add A New Resume</Badge></h2>
+				</div>
+				<br/>
+				<div>
+					<Form ref='uploadForm' id='uploadForm' action='/first1/upload' method='post' encType="multipart/form-data">
 						<FormGroup>
 						  <Label for="exampleEmail">Name</Label>
 						  <Input type="text" name="name" id="exampleEmail" placeholder="Name" />
@@ -16,17 +21,11 @@ export class AddResumes extends React.Component{
 						</FormGroup>
 						<FormGroup>
 						  <Label for="exampleText">Skills</Label>
-						  <Input type="text" name="email" id="exampleText" placeholder="Skills" />
+						  <Input type="text" name="skills" id="exampleText" placeholder="Skills" />
 						</FormGroup>
-						<FormGroup>
-						  <Label for="exampleFile">File</Label>
-						  <Input type="file" name="file" id="exampleFile" />
-						  <FormText color="muted">
-							Upload The Resume in PDF Format only
-						  </FormText>
-						</FormGroup>
-						<Button>Submit</Button>
+						<Button type="submit" bsStyle="success">Submit</Button>
 					</Form>
+				</div>
 				</div>
 		);
 		}

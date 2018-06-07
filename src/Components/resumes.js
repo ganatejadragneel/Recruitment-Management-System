@@ -1,9 +1,13 @@
 import React from 'react'
-import { Table } from 'reactstrap';
+import { Table,Badge } from 'reactstrap';
 
 export class Resumes extends React.Component{
 		render(){
 				return (
+				<div>
+					<div>
+						<h2><Badge color="info">List Of Resumes</Badge></h2>
+					</div>
 					<div>
 						<Table bordered>
 						<thead>
@@ -28,6 +32,7 @@ export class Resumes extends React.Component{
 						</tr>
 						</Table>
 					</div>
+				</div>
 		);
 		}
 }

@@ -13,6 +13,6 @@ db.connect('mongodb://localhost:27017/',function(err){
 	}
 	else{
 			app.listen(5000);
-			console.log("Connection established and listening to port 3000")
+			console.log("Connection established and listening to port 5000")
 	}
 })
