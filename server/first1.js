@@ -17,28 +17,26 @@ router.get('/addjob',  function (req, response) {
 			if(err) throw err;
 			response.send('values inserted');
 			console.log("values inserted");
-			
 		});
 });  
 
-	
 router.get('/joblist',function(req,response){
 	let collection=db.get().collection('jobs');
 	collection.find().toArray(function(err,result){
 		if(err) throw err;
 		response.send({express:result});
-		console.log(result);
 	});
 });
 
-router.post('/upload', upload.array(), function (req, response) {
+router.post('/upload', upload.single(), function (req, response) {
 	let collection=db.get().collection('resumes');
-	let func1 = function(count) {
+	console.log(req.file);
+	let func1 = (count)=> {
+		
 		collection.insertOne({id:count,name:req.body.name,email:req.body.email,skills:req.body.skills},(err,res)=>{
 			if(err) throw err;
 			response.send('values inserted');
 			console.log("values inserted");
-			
 		});
 	}
 	collection.count({}, function(error, numOfDocs){
