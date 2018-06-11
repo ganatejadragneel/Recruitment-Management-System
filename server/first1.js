@@ -63,9 +63,10 @@ router.post('/jobadder', upload.single(),(req, response)=>{
 });  
 
 router.post('/uploadresume', upload.single('File'),(req, response)=>{
+	response.send(req.body.Name);
 	let collection=db.get().collection('resumes');
 	let func1 = (count)=>{
-		collection.insertOne({id:count,Name:req.body.a,Email:req.body.b,Skills:req.body.c,File:req.file.filename},(err,res)=>{
+		collection.insertOne({id:count,Name:req.body.Name,Email:req.body.Email,Skills:req.body.Skills,File:req.file.filename},(err,res)=>{
 			if(err) throw err;
 			console.log("values inserted");
 		});

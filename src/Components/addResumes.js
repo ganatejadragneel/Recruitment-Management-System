@@ -12,7 +12,6 @@ export class AddResumes extends Component {
 	  Skills:'',
 	  File:''
 	};
-	this.emptier=this.emptier.bind(this);
   }
 
 	onChange = (e) => {
@@ -29,30 +28,25 @@ export class AddResumes extends Component {
 		this.setState(state);
 	}
 
-	emptier(){
-		this.setState({
-			Name: '',
-			Email: '',
-			Skills:'',
-			File:''
-		});
-	}
 	
-	onSubmit = (e) => {
-		e.preventDefault();
-		const { Name, Email, Skills,File } = this.state;
-		let formData = new FormData();
-		
-		formData.append('Name', Name);
-		formData.append('Email', Email);
-		formData.append('Skills', Skills);
-		formData.append('File', File);
+  onSubmit = (e) => {
+	e.preventDefault();
+	const { Name, Email, Skills,File } = this.state;
+	let formData = new FormData();
+	
+	formData.append('Name', Name);
+	formData.append('Email', Email);
+	formData.append('Skills', Skills);
+	formData.append('File', File);
 
-		axios.post('/first1/uploadresume', formData)
-		  .then((result) => {
-			  console.log("hi");
-			this.emptier()
-		  });
+	axios.post('/first1/uploadresume', formData)
+	  .then((result) => {
+		this.setState({
+		  Name: '',
+		  Email: '',
+		  Skills:'',
+		});
+	  });
   }
 
   render() {
@@ -60,7 +54,7 @@ export class AddResumes extends Component {
 	return (
 			<div>
 			<div>
-				<h2><Badge color="info">Add A New Resume</Badge></h2>
+				<h2><Badge color="info">Add A New Job</Badge></h2>
 			</div>
 			<br/>
 			<Form id="myForm" onSubmit={this.onSubmit}>
