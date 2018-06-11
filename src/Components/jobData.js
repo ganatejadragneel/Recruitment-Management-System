@@ -9,8 +9,6 @@ class JobData extends React.Component{
 	componentDidMount() {
 		this.callApi()
 		  .then(res => {
-			  console.log(res);
-			  
 			this.setState({ response: res.express});
 			  
 		  })

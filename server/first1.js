@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const db=require('./db1');
 var MongoClient = require('mongodb').MongoClient;
+const uuidv4 = require('uuid/v4');
+const path = require('path');
 const obj1=[
 {"id":0,"Title":"Accountant","Description":"Analyze financial information","Location":"Bangalore","Skills":"Mathematics,Active Listening,Monitoring,Critical Thinking","fullDes":"hi"},
 {"id":1,"Title":"Advertising Manager","Description":"Plans and executes advertising policies of organization","Location":"Mumbai","Skills":"Good Organisation,Time Management,Communication etc","fullDes":"bi"},
@@ -12,14 +14,15 @@ const obj1=[
 ];
 
 const storage = multer.diskStorage({
-	destination: (req, file, cb) => {
-		cb(null, './uploads');
-	},
-	filename: (req, file, cb) => {
-		const newFilename = "thathat";
-		cb(null, newFilename);
-	},
+      destination: (req, file, cb) => {
+        cb(null, './uploads');
+      },
+      filename: (req, file, cb) => {
+        const newFilename = `${uuidv4()}${path.extname(file.originalname)}`;
+        cb(null, newFilename);
+      },
 });
+
 const upload = multer({ storage });
 
 router.use(bodyParser.json());
@@ -59,5 +62,20 @@ router.post('/jobadder', upload.single(),(req, response)=>{
 	})
 });  
 
+router.post('/uploadresume', upload.single('File'),(req, response)=>{
+	let collection=db.get().collection('resumes');
+	let func1 = (count)=>{
+		collection.insertOne({id:count,Name:req.body.a,Email:req.body.b,Skills:req.body.c,File:req.file.filename},(err,res)=>{
+			if(err) throw err;
+			console.log("values inserted");
+		});
+	}
+	collection.count({}, function(error, numOfDocs){
+		if(error) return callback(error);
+		let count=0;
+		count=numOfDocs;
+		func1(count);
+	})
+});  
 
 module.exports=router;

@@ -1,39 +1,91 @@
-import React from 'react'
+import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label,FormText, Input, Badge } from 'reactstrap';
 
-export class AddResumes extends React.Component{
-		render(){
-				return (
-				<div>
-				<div>
-					<h2><Badge color="info">Add A New Resume</Badge></h2>
-				</div>
-				<br/>
-				<div>
-					<Form ref='uploadForm' id='uploadForm' action='/first1/upload' method='post' encType="multipart/form-data">
-						<FormGroup>
-						  <Label for="exampleEmail">Name</Label>
-						  <Input type="text" name="name" id="exampleEmail" placeholder="Name" />
-						</FormGroup>
-						<FormGroup>
-						  <Label for="exampleEmail">Email</Label>
-						  <Input type="email" name="email" id="exampleEmail" placeholder="Email" />
-						</FormGroup>
-						<FormGroup>
-						  <Label for="exampleText">Skills</Label>
-						  <Input type="text" name="skills" id="exampleText" placeholder="Skills" />
-						</FormGroup>
-						<FormGroup>
-						  <Label for="exampleFile">File</Label>
-						  <Input type="file" name="file" id="exampleFile" />
-						  <FormText color="muted">
-							Upload The Resume in PDF Format only
-						  </FormText>
-						</FormGroup>
-						<Button type="submit" >Submit</Button>
-					</Form>
-				</div>
-				</div>
-		);
+import axios from 'axios';
+
+export class AddResumes extends Component {
+  constructor() {
+	super();
+	this.state = {
+	  Name: '',
+	  Email: '',
+	  Skills:'',
+	  File:''
+	};
+	this.emptier=this.emptier.bind(this);
+  }
+
+	onChange = (e) => {
+		const state = this.state;
+
+		switch (e.target.name) {
+		  case 'File':
+			state.File = e.target.files[0];
+			break;
+		  default:
+			state[e.target.name] = e.target.value;
 		}
+
+		this.setState(state);
+	}
+
+	emptier(){
+		this.setState({
+			Name: '',
+			Email: '',
+			Skills:'',
+			File:''
+		});
+	}
+	
+	onSubmit = (e) => {
+		e.preventDefault();
+		const { Name, Email, Skills,File } = this.state;
+		let formData = new FormData();
+		
+		formData.append('Name', Name);
+		formData.append('Email', Email);
+		formData.append('Skills', Skills);
+		formData.append('File', File);
+
+		axios.post('/first1/uploadresume', formData)
+		  .then((result) => {
+			  console.log("hi");
+			this.emptier()
+		  });
+  }
+
+  render() {
+	const { Name, Email,Skills} = this.state;
+	return (
+			<div>
+			<div>
+				<h2><Badge color="info">Add A New Resume</Badge></h2>
+			</div>
+			<br/>
+			<Form id="myForm" onSubmit={this.onSubmit}>
+				<FormGroup>
+					<Label for="exampleEmail">Name</Label>
+					<Input type="text" name="Name" value={Name} onChange={this.onChange} />
+				</FormGroup>
+				<FormGroup>
+					<Label for="exampleEmail">Email</Label>
+					<Input type="text" name="Email" value={Email} onChange={this.onChange} /><br/>
+				</FormGroup>
+				<FormGroup>
+					<Label for="exampleEmail">Skills</Label>
+					<Input type="text" name="Skills" value={Skills} onChange={this.onChange} /><br/>
+				</FormGroup>
+				<FormGroup>
+				  <Label for="exampleFile">File</Label>
+				  <Input type="file" name="File" onChange={this.onChange} />
+				  <FormText color="muted">
+					Upload The Resume in PDF Format only
+				  </FormText>
+				</FormGroup>
+			<Button type="submit">Submit</Button>
+			</Form>
+			</div>
+	);
+  }
 }
