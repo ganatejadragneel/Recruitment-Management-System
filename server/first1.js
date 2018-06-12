@@ -6,7 +6,9 @@ const multer = require('multer');
 const db=require('./db1');
 var MongoClient = require('mongodb').MongoClient;
 const uuidv4 = require('uuid/v4');
+var fs = require('fs');
 const path = require('path');
+const opn = require('opn');
 const obj1=[
 {"id":0,"Title":"Accountant","Description":"Analyze financial information","Location":"Bangalore","Skills":"Mathematics,Active Listening,Monitoring,Critical Thinking","fullDes":"hi"},
 {"id":1,"Title":"Advertising Manager","Description":"Plans and executes advertising policies of organization","Location":"Mumbai","Skills":"Good Organisation,Time Management,Communication etc","fullDes":"bi"},
@@ -55,7 +57,11 @@ router.get('/resumelist',(req,response)=>{
 
 router.post('/openresume',(req,res)=>{
 	res.send(req.body.resumeid);
-	console.log("hi");
+	const felpath=path.join(__dirname,'uploads');
+	const filePath = path.join(felpath,req.body.resumeid);
+	opn(filePath).then(()=>{
+		console.log("hi");
+	});
 });
 
 router.post('/jobadder', upload.single(),(req, response)=>{

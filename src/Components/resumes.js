@@ -6,7 +6,7 @@ export class Resumes extends React.Component{
 	
 		constructor(props){
 			super(props);
-			this.state={resId:0,response:[]}
+			this.state={response:[]}
 		}
 		
 		componentDidMount() {
@@ -30,7 +30,6 @@ export class Resumes extends React.Component{
 		update(i){
 			const idz=i;
 			axios.post('/first1/openResume',{resumeid:idz})
-			console.log(this.state.resId);
 		}
 		
 		
