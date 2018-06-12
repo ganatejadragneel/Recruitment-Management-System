@@ -4,16 +4,17 @@ import {Resumes} from './resumes'
 import axios from 'axios';
 
 export class AddResumes extends Component {
-  constructor() {
-	super();
-	this.state = {
-	  Name: '',
-	  Email: '',
-	  Skills:'',
-	  File:'',
-	  chaange:false
-	};
-  }
+	constructor() {
+		super();
+		this.state = {
+		  Name: '',
+		  Email: '',
+		  Skills:'',
+		  File:'',
+		  sample:'',
+		  chaange:false
+		};
+	}
 
 	onChange = (e) => {
 		const state = this.state;
@@ -29,64 +30,78 @@ export class AddResumes extends Component {
 		this.setState(state);
 	}
 
-	
-  onSubmit = (e) => {
-	e.preventDefault();
-	const { Name, Email, Skills,File } = this.state;
-	let formData = new FormData();
-	
-	formData.append('Name', Name);
-	formData.append('Email', Email);
-	formData.append('Skills', Skills);
-	formData.append('File', File);
 
-	axios.post('/first1/uploadresume', formData)
-	  .then((result) => {
-		this.setState({
-		  Name: '',
-		  Email: '',
-		  Skills:'',
-		});
-	  });
-  }
+	onSubmit = (e) => {
+		e.preventDefault();
+		const { Name, Email, Skills,File } = this.state;
+		let formData = new FormData();
 
-  render() {
-	const { Name, Email,Skills} = this.state;
-	if(!this.state.chaange){
-	return (
-			<div>
-			<div>
-				<div className="leftBadge"><h2><Badge color="info">Add A New Resume</Badge></h2></div>
-				<div className="space"></div>
-				<div className="rightAdd"><Button onClick={()=>{this.setState({chaange:!this.state.chaange})}}>Back</Button></div>			
-			</div>
-			<br/>
-			<Form id="myForm" onSubmit={this.onSubmit}>
-				<FormGroup>
-					<Label for="exampleEmail">Name</Label>
-					<Input type="text" name="Name" value={Name} onChange={this.onChange} />
-				</FormGroup>
-				<FormGroup>
-					<Label for="exampleEmail">Email</Label>
-					<Input type="text" name="Email" value={Email} onChange={this.onChange} /><br/>
-				</FormGroup>
-				<FormGroup>
-					<Label for="exampleEmail">Skills</Label>
-					<Input type="text" name="Skills" value={Skills} onChange={this.onChange} /><br/>
-				</FormGroup>
-				<FormGroup>
-				  <Label for="exampleFile">File</Label>
-				  <Input type="file" name="File" onChange={this.onChange} />
-				  <FormText color="muted">
-					Upload The Resume in PDF Format only
-				  </FormText>
-				</FormGroup>
-			<Button type="submit">Submit</Button>
-			</Form>
-			</div>
-	);}
-	else{
-		return <Resumes/>;
+		formData.append('Name', Name);
+		formData.append('Email', Email);
+		formData.append('Skills', Skills);
+		formData.append('File', File);
+
+		axios.post('/first1/uploadresume', formData)
+		  .then((result) => {
+			this.setState({
+			  Name: '',
+			  Email: '',
+			  Skills:'',
+			});
+		  });
 	}
-  }
+	
+	setSampleToEmpty(){
+		this.setState({sample:''})
+	}
+	
+	setSampleToAdded(){
+		this.setState({sample:'Resume Added Successfully'})
+	}
+
+
+	render() {
+		const { Name, Email,Skills} = this.state;
+		if(!this.state.chaange){
+		return (
+				<div>
+				<div>
+					<div className="leftBadge"><h2><Badge color="info">Add A New Resume</Badge></h2></div>
+					<div className="space">
+					<h4>
+						{this.state.sample}
+					</h4>
+					</div>
+					<div className="rightAdd"><Button onClick={()=>{this.setState({chaange:!this.state.chaange})}}>Back</Button></div>			
+				</div>
+				<br/>
+				<br/>
+				<Form id="myForm" onSubmit={this.onSubmit}>
+					<FormGroup>
+						<Label for="exampleEmail">Name</Label>
+						<Input type="text" name="Name" value={Name} onChange={this.onChange} />
+					</FormGroup>
+					<FormGroup>
+						<Label for="exampleEmail">Email</Label>
+						<Input type="text" name="Email" value={Email} onChange={this.onChange} /><br/>
+					</FormGroup>
+					<FormGroup>
+						<Label for="exampleEmail">Skills</Label>
+						<Input type="text" name="Skills" value={Skills} onChange={this.onChange} /><br/>
+					</FormGroup>
+					<FormGroup>
+					  <Label for="exampleFile">File</Label>
+					  <Input type="file" name="File" onChange={this.onChange} />
+					  <FormText color="muted">
+						Upload The Resume in PDF Format only
+					  </FormText>
+					</FormGroup>
+				<Button type="submit">Submit</Button>
+				</Form>
+				</div>
+		);}
+		else{
+			return <Resumes/>;
+		}
+	}
 }
