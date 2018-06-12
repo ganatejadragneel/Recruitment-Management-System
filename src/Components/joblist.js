@@ -1,13 +1,13 @@
 import React from 'react'
-import { Table,Badge } from 'reactstrap';
+import { Table,Badge,Button } from 'reactstrap';
 import JobData from './jobData'
-
-
+import {AddJobs} from './addJobs'
+import './joblist.css'
 export class JobList extends React.Component{
 	
 		constructor(props){
 			super(props);
-			this.state={numb:0,modal:false,response:[]}
+			this.state={numb:0,modal:false,response:[],chaange:false}
 			this.handleClick = this.handleClick.bind(this);
 			this.toggle=this.toggle.bind(this);
 		}
@@ -33,7 +33,6 @@ export class JobList extends React.Component{
 			this.toggle()
 		}
 		
-		
 		toggle() {
 			this.setState({
 			  modal: !this.state.modal
@@ -46,13 +45,15 @@ export class JobList extends React.Component{
 			});
 		}
 		render(){
-		
+				if(!this.state.chaange){
 				return (
 				<div>
-				<div>
-						<h2><Badge color="info">List Of Jobs Available</Badge></h2>
+					<div>
+							<div className="leftBadge"><h2><Badge color="info">List Of Jobs Available</Badge></h2></div>
+							<div className="space"></div>
+							<div className="rightAdd"><Button onClick={()=>{this.setState({chaange:!this.state.chaange})}}>+</Button></div>
 					</div>
-				<div>
+					<div>
 					<Table bordered>
 						<thead>
 							<th>ID No.</th>
@@ -74,8 +75,13 @@ export class JobList extends React.Component{
 							)
 						})}
 					</Table>
+					</div>
 				</div>
-				</div>
-		);
+				);
+				}
+				else
+				{
+					return <AddJobs/>
+				}
 		}
 }

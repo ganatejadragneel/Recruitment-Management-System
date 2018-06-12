@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label,FormText, Input, Badge } from 'reactstrap';
-
+import {Resumes} from './resumes'
 import axios from 'axios';
 
 export class AddResumes extends Component {
@@ -10,7 +10,8 @@ export class AddResumes extends Component {
 	  Name: '',
 	  Email: '',
 	  Skills:'',
-	  File:''
+	  File:'',
+	  chaange:false
 	};
   }
 
@@ -51,10 +52,13 @@ export class AddResumes extends Component {
 
   render() {
 	const { Name, Email,Skills} = this.state;
+	if(!this.state.chaange){
 	return (
 			<div>
 			<div>
-				<h2><Badge color="info">Add A New Job</Badge></h2>
+				<div className="leftBadge"><h2><Badge color="info">Add A New Resume</Badge></h2></div>
+				<div className="space"></div>
+				<div className="rightAdd"><Button onClick={()=>{this.setState({chaange:!this.state.chaange})}}>Back</Button></div>			
 			</div>
 			<br/>
 			<Form id="myForm" onSubmit={this.onSubmit}>
@@ -80,6 +84,9 @@ export class AddResumes extends Component {
 			<Button type="submit">Submit</Button>
 			</Form>
 			</div>
-	);
+	);}
+	else{
+		return <Resumes/>;
+	}
   }
 }

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input, Badge } from 'reactstrap';
-
+import {JobList} from './joblist'
 import axios from 'axios';
+import './joblist.css'
 
 export class AddJobs extends Component {
   constructor() {
@@ -11,7 +12,8 @@ export class AddJobs extends Component {
 	  Description: '',
 	  Location: '',
 	  Skills:'',
-	  FullDes:''
+	  FullDes:'',
+	  chaange:false
 	};
   }
 
@@ -37,11 +39,15 @@ export class AddJobs extends Component {
 
   render() {
 	const { Title, Description, Location,Skills,FullDes } = this.state;
+	if(!this.state.chaange){
 	return (
 			<div>
 			<div>
-				<h2><Badge color="info">Add A New Job</Badge></h2>
+				<div className="leftBadge"><h2><Badge color="info">Add A New Job</Badge></h2></div>
+				<div className="space"></div>
+				<div className="rightAdd"><Button onClick={()=>{this.setState({chaange:!this.state.chaange})}}>Back</Button></div>
 			</div>
+			<br/>
 			<br/>
 			<Form id="myForm" onSubmit={this.onSubmit}>
 				<FormGroup>
@@ -68,5 +74,9 @@ export class AddJobs extends Component {
 			</Form>
 			</div>
 	);
+	}
+	else{
+		return <JobList/>
+	}
   }
 }

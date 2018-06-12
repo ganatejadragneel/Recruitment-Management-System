@@ -60,7 +60,6 @@ router.post('/openresume',(req,res)=>{
 	const felpath=path.join(__dirname,'uploads');
 	const filePath = path.join(felpath,req.body.resumeid);
 	opn(filePath).then(()=>{
-		console.log("hi");
 	});
 });
 

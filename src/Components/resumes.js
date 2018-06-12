@@ -1,12 +1,13 @@
 import React from 'react'
 import { Table,Badge,Button } from 'reactstrap';
 import axios from 'axios';
+import {AddResumes} from './addResumes'
 
 export class Resumes extends React.Component{
 	
 		constructor(props){
 			super(props);
-			this.state={response:[]}
+			this.state={response:[],chaange:false}
 		}
 		
 		componentDidMount() {
@@ -34,10 +35,13 @@ export class Resumes extends React.Component{
 		
 		
 		render(){
+				if(!this.state.chaange){
 				return (
 				<div>
 					<div>
-						<h2><Badge color="info">List Of Resumes</Badge></h2>
+						<div className="leftBadge"><h2><Badge color="info">List Of Resumes</Badge></h2></div>
+						<div className="space"></div>
+						<div className="rightAdd"><Button onClick={()=>{this.setState({chaange:!this.state.chaange})}}>+</Button></div>						
 					</div>
 					<div>
 						<Table bordered>
@@ -61,6 +65,9 @@ export class Resumes extends React.Component{
 						</Table>
 					</div>
 				</div>
-		);
+				);}
+				else{
+					return <AddResumes/>;
+				}
 		}
 }
