@@ -45,6 +45,19 @@ router.get('/joblist',(req,response)=>{
 	});
 });
 
+router.get('/resumelist',(req,response)=>{
+	let collection=db.get().collection('resumes');
+	collection.find().toArray(function(err,result){
+		if(err) throw err;
+		response.send({express:result});
+	});
+});
+
+router.post('/openresume',(req,res)=>{
+	res.send(req.body.resumeid);
+	console.log("hi");
+});
+
 router.post('/jobadder', upload.single(),(req, response)=>{
 	response.send(req.body.a);
 	let collection=db.get().collection('jobs');

@@ -1,7 +1,39 @@
 import React from 'react'
-import { Table,Badge } from 'reactstrap';
+import { Table,Badge,Button } from 'reactstrap';
+import axios from 'axios';
 
 export class Resumes extends React.Component{
+	
+		constructor(props){
+			super(props);
+			this.state={resId:0,response:[]}
+		}
+		
+		componentDidMount() {
+			this.callApi()
+			  .then(res => {
+				this.setState({ response: res.express});
+				  
+			  })
+			  .catch(err => console.log(err));
+		}
+
+		callApi = async () => {
+			const response = await fetch('/first1/resumelist');
+			const body = await response.json();
+
+			if (response.status !== 200) throw Error(body.message);
+
+			return body;
+		};
+		
+		update(i){
+			const idz=i;
+			axios.post('/first1/openResume',{resumeid:idz})
+			console.log(this.state.resId);
+		}
+		
+		
 		render(){
 				return (
 				<div>
@@ -11,25 +43,22 @@ export class Resumes extends React.Component{
 					<div>
 						<Table bordered>
 						<thead>
+							<th>Sl. No.</th>
 							<th>Name</th>
 							<th>Main Skills</th>
 							<th>Resume</th>
-						</thead>
-						<tr>
-							<td>Luffy</td>
-							<td>Captain</td>
-							<td>File1</td>
-						</tr>
-						<tr>
-							<td>Zoro</td>
-							<td>Swordsman</td>
-							<td>File2</td>
-						</tr>
-						<tr>
-							<td>Nami</td>
-							<td>Navigator</td>
-							<td>File3</td>
-						</tr>
+						</thead>{
+						this.state.response.map((resume)=>{
+							return (
+							<tr>
+								<td>{resume.id+1}</td>
+								<td>{resume.Name}</td>
+								<td>{resume.Skills}</td>
+								<td><Button onClick={()=>{this.update(resume.File)}}>View</Button></td>
+							</tr>
+							)
+						})}
+						
 						</Table>
 					</div>
 				</div>
