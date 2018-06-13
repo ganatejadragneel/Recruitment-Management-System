@@ -87,7 +87,9 @@ export class AddJobs extends Component {
 					</FormGroup>
 				<Button type="submit">Submit</Button>
 				</Form>
+				<div id="overlay">Loading......</div>
 				</div>
+
 		);
 		}
 		else{

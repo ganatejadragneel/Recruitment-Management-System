@@ -18,7 +18,6 @@ export class AddResumes extends Component {
 
 	onChange = (e) => {
 		const state = this.state;
-
 		switch (e.target.name) {
 		  case 'File':
 			state.File = e.target.files[0];
@@ -28,6 +27,7 @@ export class AddResumes extends Component {
 		}
 
 		this.setState(state);
+		this.setSampleToEmpty();
 	}
 
 
@@ -43,12 +43,14 @@ export class AddResumes extends Component {
 
 		axios.post('/first1/uploadresume', formData)
 		  .then((result) => {
+			this.setSampleToAdded();
+			console.log(result);
 			this.setState({
 			  Name: '',
 			  Email: '',
 			  Skills:'',
 			});
-		  });
+		  }).catch(()=>{this.setState({sample:'Error Adding Resume'})});
 	}
 	
 	setSampleToEmpty(){
