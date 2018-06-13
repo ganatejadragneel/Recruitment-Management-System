@@ -64,13 +64,20 @@ router.post('/openresume',(req,res)=>{
 });
 
 router.post('/jobadder', upload.single(),(req, response)=>{
-	response.send(req.body.a);
 	let collection=db.get().collection('jobs');
+	let msg = 'Success';
 	let func1 = (count)=>{
+		try{
 		collection.insertOne({id:count,Title:req.body.a,Description:req.body.b,Location:req.body.c,Skills:req.body.d,fullDes:req.body.e},(err,res)=>{
-			if(err) throw err;
+			if(err){ msg = 'Failed';};
 			console.log("values inserted");
-		});
+		});}
+		catch(e){
+			response.status(500).send('Something broke!')
+			console.log('exception\n',e);
+		}
+		
+		response.send(msg);
 	}
 	collection.count({}, function(error, numOfDocs){
 		if(error) return callback(error);
@@ -86,8 +93,7 @@ router.post('/uploadresume', upload.single('File'),(req, response)=>{
 	let func1 = (count)=>{
 		try{
 		collection.insertOne({id:count,Name:req.body.Name,Email:req.body.Email,Skills:req.body.Skills,File:req.file.filename},(err,res)=>{
-			if(err){
-			};
+			if(err){};
 			console.log("values inserted");
 			response.send(req.body.Name);
 		});}

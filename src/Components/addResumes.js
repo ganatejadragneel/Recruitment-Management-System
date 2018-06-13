@@ -2,6 +2,38 @@ import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label,FormText, Input, Badge } from 'reactstrap';
 import {Resumes} from './resumes'
 import axios from 'axios';
+import imgg from './spinno.gif'
+
+const showed={
+	display: 'block',
+	paddingLeft:'90vh',
+	paddingTop:'45vh',
+	position:'fixed',
+	width:'100%',
+	height: '100%',
+    top: '0',
+    left: '0',
+    right: '0',
+    bottom: '0',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    zIndex: '3'
+}
+
+const hidded={
+	display: 'none',
+	paddingLeft:'90vh',
+	paddingTop:'45vh',
+	position:'fixed',
+	width:'100%',
+	height: '100%',
+    top: '0',
+    left: '0',
+    right: '0',
+    bottom: '0',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    zIndex: '3'
+};
+
 
 export class AddResumes extends Component {
 	constructor() {
@@ -12,7 +44,8 @@ export class AddResumes extends Component {
 		  Skills:'',
 		  File:'',
 		  sample:'',
-		  chaange:false
+		  chaange:false,
+		  show:hidded
 		};
 	}
 
@@ -35,7 +68,8 @@ export class AddResumes extends Component {
 		e.preventDefault();
 		const { Name, Email, Skills,File } = this.state;
 		let formData = new FormData();
-
+		this.loaderShow();
+		setInterval(console.log(1),10000);
 		formData.append('Name', Name);
 		formData.append('Email', Email);
 		formData.append('Skills', Skills);
@@ -49,8 +83,9 @@ export class AddResumes extends Component {
 			  Name: '',
 			  Email: '',
 			  Skills:'',
+			  show:hidded
 			});
-		  }).catch(()=>{this.setState({sample:'Error Adding Resume'})});
+		  }).catch(()=>{this.setState({sample:'Error Adding Resume',show:hidded})});
 	}
 	
 	setSampleToEmpty(){
@@ -60,13 +95,17 @@ export class AddResumes extends Component {
 	setSampleToAdded(){
 		this.setState({sample:'Resume Added Successfully'})
 	}
-
+	
+	loaderShow(){
+		this.setState({show:showed});
+	}
 
 	render() {
 		const { Name, Email,Skills} = this.state;
 		if(!this.state.chaange){
 		return (
 				<div>
+				<div><h3 style={this.state.show}><img src={imgg} alt="Can't Load" /></h3></div>
 				<div>
 					<div className="leftBadge"><h2><Badge color="info">Add A New Resume</Badge></h2></div>
 					<div className="space">
